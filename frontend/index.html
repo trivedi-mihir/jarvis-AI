@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#05070b" />
+<title>JARVIS — Computer Agent</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<div class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-head">
+      <div class="sb-brand">
+        <div class="sb-orb" id="sb-orb" title="Click to talk"></div>
+        <div>
+          <div class="sb-name">JARVIS</div>
+          <div class="sb-role">COMPUTER AGENT</div>
+        </div>
+      </div>
+      <button class="ibtn sidebar-close" id="sidebar-close" title="Close sidebar">✕</button>
+    </div>
+
+    <button class="sb-new" id="new-task">
+      <span>+</span> NEW TASK
+    </button>
+
+    <div class="sb-section">
+      <div class="sb-label">TASK HISTORY</div>
+      <div id="task-history" class="sb-history"></div>
+    </div>
+
+    <div class="sb-foot">
+      <div class="sb-status"><span class="dot" id="sb-dot"></span> <span id="sb-text">CHECKING</span></div>
+      <div class="sb-version">v8.0 · AGENT</div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+    <header class="topbar">
+      <button class="ibtn menu-btn" id="menu-btn" title="Menu">☰</button>
+
+      <div class="topbar-left">
+        <div class="logo" id="topbar-logo" title="Click to talk">◉</div>
+        <div>
+          <div class="title">JARVIS</div>
+          <div class="sub">UNRESTRICTED COMPUTER-USE AGENT</div>
+        </div>
+      </div>
+
+      <div class="chips">
+        <div class="chip" id="chip-ai"><span class="chip-dot"></span>AI</div>
+        <div class="chip" id="chip-pc"><span class="chip-dot"></span>COMPUTER</div>
+        <div class="chip" id="chip-mic"><span class="chip-dot"></span>VOICE</div>
+      </div>
+
+      <div class="topbar-right">
+        <button class="ibtn" id="palette-btn" title="Command palette (Ctrl+K)">⌘</button>
+        <div class="clock" id="clock">--:--:--</div>
+        <button class="ibtn" id="settings-btn" title="Settings">⚙</button>
+      </div>
+    </header>
+
+    <!-- ============ ORB ============ -->
+    <section class="orb-stage">
+      <div class="orb" id="orb" title="Click to speak with JARVIS" tabindex="0" role="button" aria-label="Click to speak">
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+        <div class="core">
+          <div class="core-inner"></div>
+          <div class="core-glow"></div>
+        </div>
+      </div>
+      <div class="state" id="state">STANDBY</div>
+      <div class="state-sub" id="state-sub">CLICK ORB TO SPEAK · OR TYPE BELOW</div>
+    </section>
+
+    <!-- ============ TASK MONITOR ============ -->
+    <section class="task-monitor hidden" id="task-monitor">
+      <div class="task-head">
+        <div class="task-title">ACTIVE TASK</div>
+        <div class="task-head-actions">
+          <button class="task-toggle" id="task-cancel" title="Cancel task">CANCEL</button>
+          <button class="task-toggle" id="task-toggle">HIDE</button>
+        </div>
+      </div>
+      <div class="task-goal" id="task-goal">—</div>
+      <div class="task-steps" id="task-steps"></div>
+    </section>
+
+    <!-- ============ CHAT ============ -->
+    <section class="chat" id="chat"></section>
+
+    <!-- ============ WELCOME ============ -->
+    <section class="welcome" id="welcome">
+      <div class="welcome-hero">
+        <div class="welcome-orb"></div>
+        <div class="welcome-title">JARVIS</div>
+        <div class="welcome-tag">GIVE ME A GOAL. I'LL FIGURE OUT HOW TO DO IT.</div>
+      </div>
+
+      <div class="welcome-examples">
+        <button class="ex" data-cmd="Open YouTube and search for travel vlogs">
+          <span class="ex-ic">▶</span>
+          <span class="ex-t">Open YouTube<br><em>search travel vlogs</em></span>
+        </button>
+        <button class="ex" data-cmd="Create a folder called MyProject on my Desktop and open it in VS Code">
+          <span class="ex-ic">▣</span>
+          <span class="ex-t">Create project folder<br><em>+ open in VS Code</em></span>
+        </button>
+        <button class="ex" data-cmd="Take a screenshot and describe what's on my screen">
+          <span class="ex-ic">◉</span>
+          <span class="ex-t">Screenshot<br><em>+ describe it</em></span>
+        </button>
+        <button class="ex" data-cmd="What is my current RAM usage and CPU?">
+          <span class="ex-ic">◆</span>
+          <span class="ex-t">System info<br><em>RAM + CPU</em></span>
+        </button>
+        <button class="ex" data-cmd="Open Notepad and type Hello from JARVIS">
+          <span class="ex-ic">⌨</span>
+          <span class="ex-t">Open Notepad<br><em>+ type text</em></span>
+        </button>
+        <button class="ex" data-cmd="Find my resume file and tell me where it is">
+          <span class="ex-ic">⌕</span>
+          <span class="ex-t">Find a file<br><em>anywhere on PC</em></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ INPUT ============ -->
+    <div class="inputbar">
+      <button class="ibtn-lg" id="voice-btn" title="Voice input (Ctrl+M)">🎙</button>
+      <input id="user-input" placeholder="Ask JARVIS anything, or click the orb to speak..." autocomplete="off" autofocus />
+      <button class="ibtn-lg primary" id="send-btn" title="Send (Enter)">➤</button>
+    </div>
+  </main>
+</div>
+
+<!-- ============ SETTINGS MODAL ============ -->
+<div class="modal hidden" id="settings-modal">
+  <div class="modal-content">
+    <div class="modal-head">
+      <h2>⚙ SETTINGS</h2>
+      <button class="ibtn" id="settings-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <label class="lbl">OpenRouter API Key</label>
+      <input type="password" id="api-key" class="inp mono" placeholder="sk-or-v1-..." />
+
+      <label class="lbl">Planner / Vision Model</label>
+      <input type="text" id="model" class="inp mono" value="openai/gpt-4o-mini" />
+
+      <p class="hint">Vision-capable models (gpt-4o, claude-3.5, gemini-flash) let JARVIS <em>see</em> your screen.</p>
+
+      <label class="lbl">Auto-speak responses</label>
+      <label class="toggle">
+        <input type="checkbox" id="tts-toggle" checked />
+        <span class="toggle-slider"></span>
+        <span class="toggle-text">Enable voice output</span>
+      </label>
+
+      <label class="lbl">Click orb to speak</label>
+      <label class="toggle">
+        <input type="checkbox" id="orb-click-toggle" checked />
+        <span class="toggle-slider"></span>
+        <span class="toggle-text">Enable click-to-talk on orb</span>
+      </label>
+
+      <button class="btn-block primary" id="test-btn">⚡ TEST CONNECTION</button>
+      <div id="test-out" class="test-out hidden"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CONFIRM MODAL ============ -->
+<div class="modal hidden" id="confirm-modal">
+  <div class="modal-content small">
+    <div class="modal-head">
+      <h2>⚠ CONFIRM ACTION</h2>
+    </div>
+    <div class="modal-body">
+      <p id="confirm-text" class="confirm-text">Proceed?</p>
+      <button class="btn-block primary" id="confirm-yes">CONFIRM</button>
+      <button class="btn-block" id="confirm-no">CANCEL</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ COMMAND PALETTE ============ -->
+<div class="modal hidden" id="palette-modal">
+  <div class="palette-content">
+    <input id="palette-input" class="palette-input" placeholder="Type a command or search..." autocomplete="off" />
+    <div class="palette-list" id="palette-list"></div>
+    <div class="palette-foot">↑ ↓ navigate · Enter select · Esc close</div>
+  </div>
+</div>
+
+<!-- ============ TOASTS ============ -->
+<div class="toasts" id="toasts"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
